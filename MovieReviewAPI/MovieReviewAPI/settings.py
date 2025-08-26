@@ -38,7 +38,9 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     'rest_framework',
+    'rest_framework.authtoken',
     'reviews',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -75,13 +77,9 @@ WSGI_APPLICATION = "MovieReviewAPI.wsgi.application"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "movie_db",
-        "USER": "Ivan-k",
-        "PASSWORD": "1235%",
-        "HOST": "localhost",
-        "PORT": "5432",
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / "db.sqlite3",
     }
 }
 
@@ -126,3 +124,12 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+AUTH_USER_MODEL= 'users.CustomUser'
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://*.github.dev",
+    "https://*.app.github.dev",
+    "https://localhost:8000",
+    "http://localhost:8000",
+]
