@@ -1,6 +1,6 @@
 from .models import CustomUser
 from rest_framework import serializers                                                      # type: ignore
-from django.contrib.auth import authenticate                                # type: ignore
+from django.contrib.auth import authenticate                                                # type: ignore
 from rest_framework.authtoken.models import Token                                           # type: ignore
 
 
