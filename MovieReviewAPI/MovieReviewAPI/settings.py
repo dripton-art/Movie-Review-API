@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-43n104p@+1zi3-7!zs_os_vz@l-%^bf&ftf(yebik^pe&!3f4_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -53,7 +53,7 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 1,
-    
+
     'DEFAULT_FILTER_BACKENDS': [
         'rest_framework.filters.SearchFilter',
         'rest_framework.filters.OrderingFilter',
@@ -150,15 +150,3 @@ CSRF_TRUSTED_ORIGINS = [
     "https://localhost:8000",
     "http://localhost:8000",
 ]
-
-ALLOWED_HOSTS = [
-    'localhost',
-    'glowing-orbit-97wqvq99v5jhw99-8000.app.github.dev', # Your Codespace URL
-]
-# Add the URL with `http` for local testing if needed
-CORS_ALLOWED_ORIGINS = [
-    "https://glowing-orbit-97wqvq99v5jhw99-8000.app.github.dev",
-    "http://localhost:8000"
-]
-
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
