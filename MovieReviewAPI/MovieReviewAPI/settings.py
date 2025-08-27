@@ -49,11 +49,10 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.AllowAny',
     ],
-
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 5,  # you can change this to 10, 20 etc.
+    'PAGE_SIZE': 1,
     
     'DEFAULT_FILTER_BACKENDS': [
         'rest_framework.filters.SearchFilter',
@@ -151,3 +150,15 @@ CSRF_TRUSTED_ORIGINS = [
     "https://localhost:8000",
     "http://localhost:8000",
 ]
+
+ALLOWED_HOSTS = [
+    'localhost',
+    'glowing-orbit-97wqvq99v5jhw99-8000.app.github.dev', # Your Codespace URL
+]
+# Add the URL with `http` for local testing if needed
+CORS_ALLOWED_ORIGINS = [
+    "https://glowing-orbit-97wqvq99v5jhw99-8000.app.github.dev",
+    "http://localhost:8000"
+]
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')

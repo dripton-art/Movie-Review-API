@@ -1,8 +1,10 @@
-from django_filters.rest_framework import DjangoFilterBackend                                  # type: ignore
+from django_filters.rest_framework import DjangoFilterBackend                                   
 from .serializers import MovieSerializer, ReviewSerializer
-from rest_framework import viewsets, permissions, filters, status                              # type: ignore
+from rest_framework import viewsets, permissions, filters, status                              
+from rest_framework.pagination import PageNumberPagination
 from .models import Movie, Review
 from .permissions import IsOwnerOrReadOnly
+from rest_framework.permissions import AllowAny
 
 
 
@@ -11,19 +13,21 @@ from .permissions import IsOwnerOrReadOnly
 class MovieViewSet(viewsets.ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+    permission_classes = [AllowAny]
+    pagination_class = PageNumberPagination
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        serializer.save()
 
 class ReviewViewSet(viewsets.ModelViewSet):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+    pagination_class = PageNumberPagination
 
     # Add search, filter, ordering
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
-    search_fields = ['movie__title', 'review_content']  # search by movie title or content
+    search_fields = ['movie_title', 'review_content']  # search by movie title or content
     filterset_fields = ['rating']  # filter by rating
     ordering_fields = ['created_at', 'rating']  # sort by created date or rating
     ordering = ['-created_at']  # default: newest first
@@ -39,4 +43,5 @@ class ReviewViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
 

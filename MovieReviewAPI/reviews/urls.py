@@ -9,4 +9,4 @@ router.register(r'reviews', ReviewViewSet, basename='review')
 
 urlpatterns = [
     path('', include(router.urls)),
-]
+] + router.urls

@@ -7,7 +7,7 @@ from .models import Movie, Review
 class MovieSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movie
-        fields = ['id', 'title', 'description', 'release_date']
+        fields = '__all__'
 
     def validate_title(self, value):
         if not value.strip():
