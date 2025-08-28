@@ -4,9 +4,9 @@ from .views import MovieViewSet, ReviewViewSet
 
 router = DefaultRouter()
 
-router.register(r'movies', MovieViewSet, basename='movie')
-router.register(r'reviews', ReviewViewSet, basename='review')
+router.register(r'movies', MovieViewSet)
+router.register(r'reviews', ReviewViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-] + router.urls
+]

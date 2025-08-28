@@ -1,11 +1,10 @@
 from django_filters.rest_framework import DjangoFilterBackend                                   
 from .serializers import MovieSerializer, ReviewSerializer
-from rest_framework import viewsets, permissions, filters, status                              
+from rest_framework import viewsets, filters                              
 from rest_framework.pagination import PageNumberPagination
 from .models import Movie, Review
 from .permissions import IsOwnerOrReadOnly
-from rest_framework.permissions import AllowAny
-
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 
 # Create your views here.
@@ -13,7 +12,7 @@ from rest_framework.permissions import AllowAny
 class MovieViewSet(viewsets.ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsOwnerOrReadOnly]
     pagination_class = PageNumberPagination
 
     def perform_create(self, serializer):
@@ -22,7 +21,7 @@ class MovieViewSet(viewsets.ModelViewSet):
 class ReviewViewSet(viewsets.ModelViewSet):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+    permission_classes = [IsOwnerOrReadOnly]
     pagination_class = PageNumberPagination
 
     # Add search, filter, ordering

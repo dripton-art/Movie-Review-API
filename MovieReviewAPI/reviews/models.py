@@ -1,7 +1,6 @@
-from django.db import models                                                           # type: ignore
-from django.contrib.auth import get_user_model                                         # type: ignore
+from django.db import models                                                         
+from django.conf import settings                                      
 
-User = get_user_model()
 
 
 # Create your models here.
@@ -16,10 +15,13 @@ class Movie(models.Model):
 
 class Review(models.Model):
     movie_title = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name="reviews",)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    rating = models.PositiveIntegerField()
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    rating = models.PositiveIntegerField(choices=[(i, i) for i in range(1, 6)])
     review_content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('movie_title', 'user')
 
     def __str__(self):
         return f"{self.movie_title.title} ({self.rating}/5) by {self.user.username}"

@@ -17,10 +17,12 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
+from users.views import UserList
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('reviews/', include('reviews.urls')),
-    path('users/', include('users.urls')),
+    path('api/reviews/', include('reviews.urls')),
+    path('api/users/', include('users.urls')),
     path('api-auth/', include('rest_framework.urls')), # For browsable API login/logout
 ]
