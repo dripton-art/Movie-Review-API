@@ -25,11 +25,7 @@ SECRET_KEY = "django-insecure-43n104p@+1zi3-7!zs_os_vz@l-%^bf&ftf(yebik^pe&!3f4_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-<<<<<<< HEAD
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
-=======
-ALLOWED_HOSTS = ['*']
->>>>>>> cf985a1368ee10f2f10e68401ca89a2c18a140b8
 
 
 # Application definition
@@ -80,7 +76,7 @@ ROOT_URLCONF = "MovieReviewAPI.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / 'templates'],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -155,16 +151,9 @@ CSRF_TRUSTED_ORIGINS = [
     "https://localhost:8000",
     "http://localhost:8000",
 ]
-<<<<<<< HEAD
+
 
 # The URL to redirect to after a user logs in.
 LOGIN_REDIRECT_URL = '/api/reviews/'
+LOGOUT_REDIRECT_URL = '/api-auth/login/'
 
-CSRF_COOKIE_SAMESITE = 'Lax'
-SESSION_COOKIE_SAMESITE = 'Lax'
-
-AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
-]
-=======
->>>>>>> cf985a1368ee10f2f10e68401ca89a2c18a140b8

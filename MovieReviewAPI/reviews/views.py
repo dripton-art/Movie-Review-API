@@ -4,15 +4,20 @@ from rest_framework import viewsets, filters
 from rest_framework.pagination import PageNumberPagination
 from .models import Movie, Review
 from .permissions import IsOwnerOrReadOnly
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticated
+from django.http import HttpResponse
+from django.shortcuts import render
 
 
 # Create your views here.
 
+def home(request):
+    return render(request, "home.html")
+
 class MovieViewSet(viewsets.ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
-    permission_classes = [IsOwnerOrReadOnly]
+    permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
     pagination_class = PageNumberPagination
 
     def perform_create(self, serializer):
@@ -21,7 +26,7 @@ class MovieViewSet(viewsets.ModelViewSet):
 class ReviewViewSet(viewsets.ModelViewSet):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
-    permission_classes = [IsOwnerOrReadOnly]
+    permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
     pagination_class = PageNumberPagination
 
     # Add search, filter, ordering

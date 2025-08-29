@@ -1,6 +1,8 @@
-from rest_framework import generics, permissions
 from .models import CustomUser
-from .serializers import UserSerializer
+from rest_framework import generics, permissions
+from .serializers import UserSerializer, SignUpSerializer
+from rest_framework.permissions import IsAuthenticated
+
 
 
 class IsOwnerOrAdmin(permissions.BasePermission):
@@ -12,11 +14,16 @@ class IsOwnerOrAdmin(permissions.BasePermission):
         # Write permissions are only allowed if the user is the owner or an admin.
         return obj == request.user or request.user.is_superuser
 
-class UserList(generics.ListCreateAPIView):
+class UserList(generics.ListAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated, IsOwnerOrAdmin]
 
 class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [IsOwnerOrAdmin]
+    permission_classes = [IsAuthenticated, IsOwnerOrAdmin]
+
+class SignUp(generics.CreateAPIView):
+    queryset = CustomUser.objects.all()
+    serializer_class = SignUpSerializer
