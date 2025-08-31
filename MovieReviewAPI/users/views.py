@@ -53,13 +53,13 @@ class MyProfile(generics.RetrieveUpdateAPIView):
     def get_object(self):
         return self.request.user.profile  # only current user’s profile
 
-'''
-  # Public profile (view-only)
+
+   # Public profile (view-only)
 class ProfileDetail(generics.RetrieveAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
     permission_classes = [IsAuthenticated]  # must be logged in
-'''  
+ 
     
     
     

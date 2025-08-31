@@ -26,5 +26,5 @@ class Review(models.Model):
         unique_together = ('movie_title', 'user')
 
     def __str__(self):
-        return f"{self.movie_title.title} ({self.rating}/5) by {self.user.user}"
+        return f"{self.movie_title} ({self.rating}/5) by {self.user}"
 
