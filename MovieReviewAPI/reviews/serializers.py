@@ -15,11 +15,13 @@ class MovieSerializer(serializers.ModelSerializer):
         return value
 
 class ReviewSerializer(serializers.ModelSerializer):
-    user = serializers.ReadOnlyField(source='user.username')
+    #movie_title = serializers.StringRelatedField(source='movie')  # show movie title instead of ID
+    user = serializers.ReadOnlyField(source='user.username')  # read-only field to show the username of the reviewer  
+    profile = serializers.PrimaryKeyRelatedField(read_only=True)  
 
     class Meta:
         model = Review
-        fields = ['id', 'movie_title', 'user', 'rating', 'review_content', 'created_at']
+        fields = ['id', 'movie_title', 'user', 'rating', 'review_content', 'created_at', 'profile']
         read_only_fields = ['user', 'created_at']
 
     def validate_rating(self, value):
@@ -32,3 +34,9 @@ class ReviewSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Review content cannot be empty.")
         return value
 
+    def validate(self, data):
+        user = self.context['request'].user
+        movie = data.get("movie_title")
+        if Review.objects.filter(user=user, movie_title=movie).exists():
+            raise serializers.ValidationError("You cannot review the same movie again! please review another one instead.")
+        return data

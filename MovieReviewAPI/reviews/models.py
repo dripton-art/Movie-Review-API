@@ -1,12 +1,12 @@
 from django.db import models                                                         
 from django.conf import settings                                      
-
+from users.models import Profile
 
 
 # Create your models here.
 
 class Movie(models.Model):
-    movie_title = models.CharField(max_length=200, unique=True)
+    movie_title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
     release_date = models.DateField(blank=True, null=True)
 
@@ -19,10 +19,12 @@ class Review(models.Model):
     rating = models.PositiveIntegerField(choices=[(i, i) for i in range(1, 6)])
     review_content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='reviews', default=1)
+    
 
     class Meta:
         unique_together = ('movie_title', 'user')
 
     def __str__(self):
-        return f"{self.movie_title.title} ({self.rating}/5) by {self.user.username}"
+        return f"{self.movie_title.title} ({self.rating}/5) by {self.user.user}"
 

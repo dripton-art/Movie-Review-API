@@ -5,7 +5,7 @@ from rest_framework.pagination import PageNumberPagination
 from .models import Movie, Review
 from .permissions import IsOwnerOrReadOnly
 from rest_framework.permissions import IsAuthenticated
-from django.http import HttpResponse
+from users.models import Profile
 from django.shortcuts import render
 
 
@@ -17,7 +17,7 @@ def home(request):
 class MovieViewSet(viewsets.ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
-    permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
+    permission_classes = [IsAuthenticated]
     pagination_class = PageNumberPagination
 
     def perform_create(self, serializer):
@@ -46,6 +46,10 @@ class ReviewViewSet(viewsets.ModelViewSet):
         return queryset  # return the filtered or full list
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        # Get the profile instance of the currently authenticated user
+        profile = Profile.objects.get(user=self.request.user)
+        # Save the new review instance, linking it to the user's profile
+        serializer.save(user=self.request.user, profile=profile)
+        
 
 
