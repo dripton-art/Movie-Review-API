@@ -1,5 +1,6 @@
 from rest_framework import serializers                                                # type: ignore
 from .models import Movie, Review
+from users.models import Profile, CustomUser
 
 
 
@@ -15,14 +16,12 @@ class MovieSerializer(serializers.ModelSerializer):
         return value
 
 class ReviewSerializer(serializers.ModelSerializer):
-    #movie_title = serializers.StringRelatedField(source='movie')  # show movie title instead of ID
-    user = serializers.ReadOnlyField(source='user.username')  # read-only field to show the username of the reviewer  
-    profile = serializers.PrimaryKeyRelatedField(read_only=True)  
+    profile = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta:
         model = Review
-        fields = ['id', 'movie_title', 'user', 'rating', 'review_content', 'created_at', 'profile']
-        read_only_fields = ['user', 'created_at']
+        fields = ['id', 'movie_title', 'rating', 'review_content', 'created_at', 'profile']
+        read_only_fields = ['created_at']
 
     def validate_rating(self, value):
         if value < 1 or value > 5:

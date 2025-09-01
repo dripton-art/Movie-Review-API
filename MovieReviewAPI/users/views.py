@@ -1,6 +1,6 @@
 from .models import CustomUser, Profile
 from rest_framework import generics, permissions, status
-from .serializers import UserSerializer, SignUpSerializer, ProfileSerializer
+from .serializers import UserSerializer, SignUpSerializer, ProfileSerializer, ProfileUpdateSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
@@ -44,14 +44,14 @@ class SignUp(generics.CreateAPIView):
             headers=headers
         )
 
-class MyProfile(generics.RetrieveUpdateAPIView):
+class ProfileView(generics.RetrieveAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
-    permission_classes = [IsAuthenticated]
-    pagination_class = PageNumberPagination
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_object(self):
-        return self.request.user.profile  # only current user’s profile
+        # This view will return the profile of the currently logged-in user.
+        return self.request.user.profile
 
 
    # Public profile (view-only)
@@ -60,6 +60,11 @@ class ProfileDetail(generics.RetrieveAPIView):
     serializer_class = ProfileSerializer
     permission_classes = [IsAuthenticated]  # must be logged in
  
-    
-    
-    
+class ProfileUpdateView(generics.UpdateAPIView):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileUpdateSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        # This view will get the profile of the currently logged-in user.
+        return self.request.user.profile      
