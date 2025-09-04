@@ -1,6 +1,6 @@
 from .models import CustomUser, Profile
 from rest_framework import serializers 
-from reviews.serializers import ReviewSerializer
+from reviews.models import Review
 
 
 
@@ -22,9 +22,14 @@ class SignUpSerializer(serializers.ModelSerializer):
         user = CustomUser.objects.create_user(**validated_data)
         return user
 
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = ["id", "movie_title", "rating", "review_content", "created_at"]
+
 class ProfileSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source='user.username', read_only=True)
-    reviews = ReviewSerializer(many=True, read_only=True)
+    reviews = ReviewSerializer(source="user.reviews", many=True, read_only=True)
 
     class Meta:
         model = Profile

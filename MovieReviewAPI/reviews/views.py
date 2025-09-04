@@ -46,10 +46,8 @@ class ReviewViewSet(viewsets.ModelViewSet):
         return queryset  # return the filtered or full list
 
     def perform_create(self, serializer):
-        # Get the profile instance of the currently authenticated user
-        profile = Profile.objects.get(user=self.request.user)
-        # Save the new review instance, linking it to the user's profile
-        serializer.save(user=self.request.user, profile=profile)
+        serializer.save(user=self.request.user)
+
         
 
 

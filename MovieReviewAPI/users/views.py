@@ -21,14 +21,15 @@ class UserList(generics.ListAPIView):
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated, IsOwnerOrAdmin]
 
-class UserDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = CustomUser.objects.all()
-    serializer_class = UserSerializer
-    permission_classes = [IsAuthenticated, IsOwnerOrAdmin]
+#class UserDetail(generics.RetrieveUpdateDestroyAPIView):
+    #queryset = CustomUser.objects.all()
+    #serializer_class = UserSerializer
+    #permission_classes = [IsAuthenticated, IsOwnerOrAdmin]
 
 class SignUp(generics.CreateAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = SignUpSerializer
+    permission_classes = [permissions.AllowAny]
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)

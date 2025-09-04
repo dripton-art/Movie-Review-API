@@ -15,11 +15,10 @@ class Movie(models.Model):
 
 class Review(models.Model):
     movie_title = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name="reviews",)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="reviews")
     rating = models.PositiveIntegerField(choices=[(i, i) for i in range(1, 6)])
     review_content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='reviews', default=1)
     
 
     class Meta:

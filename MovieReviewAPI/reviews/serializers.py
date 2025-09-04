@@ -16,12 +16,12 @@ class MovieSerializer(serializers.ModelSerializer):
         return value
 
 class ReviewSerializer(serializers.ModelSerializer):
-    profile = serializers.PrimaryKeyRelatedField(read_only=True)
+    profile = serializers.StringRelatedField(read_only=True)
 
     class Meta:
         model = Review
         fields = ['id', 'movie_title', 'rating', 'review_content', 'created_at', 'profile']
-        read_only_fields = ['created_at']
+        read_only_fields = ['created_at', 'profile']
 
     def validate_rating(self, value):
         if value < 1 or value > 5:
@@ -35,7 +35,10 @@ class ReviewSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         user = self.context['request'].user
+        profile = user.profile 
         movie = data.get("movie_title")
+
         if Review.objects.filter(user=user, movie_title=movie).exists():
             raise serializers.ValidationError("You cannot review the same movie again! please review another one instead.")
         return data
+
